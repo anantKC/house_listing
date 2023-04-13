@@ -1,0 +1,28 @@
+{% extends 'core/base.html' %}
+
+<div class="container">
+    {% block content %}
+        {% for list in house_list %}
+            {% comment %} {% if list.image %}
+            <a href="{% url 'detail' list.id %}"><img src="{{ list.image.url }}" alt="{{ list.area}}" /></a>
+            {% endif %}
+            <p>{{ list.location }}</p>
+            <p>{{ list.area_in_sqm }}</p>
+            <p>{{ list.price }}</p> {% endcomment %}
+            <div class="max-w-sm rounded overflow-hidden shadow-lg m-2 p-1">
+            {% if list.image %}
+               <a href="{% url 'detail' list.id %}"> <img class="w-full" src="{{list.image.url}}" alt=""></a>
+            {% endif %}
+      <p class="text-gray-700 text-base">
+        Location : {{ list.location}}
+      </p>
+      <p class="text-gray-700 text-base">
+        Area : {{ list.area_in_sqm }}
+      </p>
+       <p class="text-gray-700 text-base">
+        Price : {{ list.price }}
+      </p>
+    </div>
+        {% endfor %}
+    {% endblock content %}
+</div>

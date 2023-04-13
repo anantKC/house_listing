@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <!-- <h1><a href="{% url 'listhouse' %}">House Listings</a></h1>
+     -->
+    <div class="flex text-2xl block mt-4 no-underline md:inline-block md:mt-0 text-teal-lighter hover:text-gray-800 mr-4">
+    <a href="{% url 'listhouse' %}" class="text-4xl block mt-4 no-underline md:inline-block md:mt-0 text-teal-lighter hover:text-gray-800 mr-4">
+        House Listings
+      </a>
+    {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}">Login</a>
+        <a href="{% url 'signup' %}">SignUp</a>
+
+
+    {% else %}
+        <a href="{% url 'createlisthouse' %}">Add house</a></button>
+
+        <h2>Hello, {{user.username}}</h2>
+        <a href="{% url 'logout' %}">Log Out</a>
+
+    {% endif %}
+    </div>
+
+    {% block content %}
+    {% endblock content %}
+    
+</body>
+</html>
