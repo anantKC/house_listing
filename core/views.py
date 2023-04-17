@@ -23,7 +23,6 @@ def create_list_house(request):
         form = HouseListingForm(request.POST, request.FILES,request=request)
         if form.is_valid():
             form.save()
-            
             return redirect('listhouse')
         print(form.errors)
     context = {'form': form}
