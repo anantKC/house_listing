@@ -11,9 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from decouple import config
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('MY_SECURITY_KEY')
+SECRET_KEY = config('MY_SECURITY_KEY') 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,11 +79,11 @@ WSGI_APPLICATION = 'houselisting.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('db_name'),
-        'USER': os.environ.get('db_user'),
-        'PASSWORD': os.environ.get('db_password'),
-        'HOST': os.environ.get('db_host'),
-        'PORT': os.environ.get('db_port'),
+        'NAME': config('db_name'),
+        'USER': config('db_user'),
+        'PASSWORD': config('db_password'),
+        'HOST': config('db_host'),
+        'PORT': config('db_port'),
     }
 }
 

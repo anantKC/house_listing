@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect
 from .models import HouseListing
 from .forms import HouseListingForm
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -36,11 +34,13 @@ def update_list_house(request, id):
     listing = HouseListing.objects.get(id=id)
     form = HouseListingForm(instance=listing)
     if request.method == 'POST':
-        form = HouseListingForm(request.POST, request.FILES, instance=listing)
+        form = HouseListingForm(request.POST, request.FILES,instance=listing,request=request)
         if form.is_valid():
             form.save()
             return redirect('listhouse')
-    context = {'form': form}
+            
+    context = {'form': form,
+               'listing':listing}
     return render(request, 'core/update_house_list.html', context)
 
 
@@ -49,16 +49,13 @@ def delete_list_house(request, id):
     if request.method == 'POST':
         listing.delete()
         return redirect('listhouse')
-    context = {'listing': listing}
-
-    return render(request, 'core/delete.html', context,)
+    return render(request, 'core/delete.html')
 
 def sign_up(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request,user)
+            form.save()
             return redirect('login')
     else:
         form = UserCreationForm()
