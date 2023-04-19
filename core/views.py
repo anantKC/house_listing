@@ -45,8 +45,9 @@ def update_list_house(request, id):
 
 def delete_list_house(request, id):
     listing = HouseListing.objects.get(id=id)
-    if request.method == 'POST':
-        listing.delete()
+    form = HouseListingForm(instance=listing,request=request)
+    if request.method == 'POST' and 'delete' in request.POST:
+        form.delete()
         return redirect('listhouse')
     return render(request, 'core/delete.html')
 

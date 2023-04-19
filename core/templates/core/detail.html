@@ -21,10 +21,12 @@
       </p>
     </div>
     {% if user.is_authenticated %}
+    {% if house_list.user == user %}
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-1">
                 <a href="{% url 'updatelisthouse' house_list.id %}">Update</a>
             <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-1">
                 <a href="{% url 'deletelisthouse' house_list.id %}">Delete</a>
+    {% endif %}
     {% endif %}
 </button>
 

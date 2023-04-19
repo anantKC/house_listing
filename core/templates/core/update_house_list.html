@@ -3,8 +3,34 @@
 {% block content %}
     <form method="post" action"" enctype= "multipart/form-data">
         {% csrf_token %}
-        {{form.as_p}}
+        <div>
+            <label for="{{ form.image.id_for_label }}" >Image:</label>
+            {{ form.image }}
+          </div>
+          <div>
+            <label for="{{ form.location.id_for_label }}">Location:</label>
+            {{ form.location }}
+          </div>
+          <div>
+            <label for="{{ form.area_in_sqm.id_for_label }}">Area (in sqm):</label>
+            {{ form.area_in_sqm }}
+          </div>
+          <div>
+            <label for="{{ form.price.id_for_label }}">Price:</label>
+            {{ form.price }}
+          </div>
         <input type="submit" value="Save" />
         <a href="{% url 'detail' listing.id %}" type="button">Cancel</a>
     </form>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+      <ul>
+        {% for field, errors in form.errors.items %}
+          {% for error in errors %}
+            <li>{{ field }}: {{ error }}</li>
+          {% endfor %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 {% endblock content %}

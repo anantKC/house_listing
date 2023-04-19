@@ -4,7 +4,7 @@
     <form method="post">
         {% csrf_token %}
         Are you sure you want to delete?
-        <input type="submit" value="Delete" />
+        <input type="submit" name="delete" value="Delete" />
         <a href="{% url 'listhouse' %}" type="button">Cancel</a>
     </form>
 {% endblock content %}
