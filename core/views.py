@@ -4,7 +4,6 @@ from .forms import HouseListingForm
 from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 
-
 def list_house(request):
     house_list = HouseListing.objects.all()
     context = {'house_list': house_list}
@@ -45,9 +44,10 @@ def update_list_house(request, id):
 
 def delete_list_house(request, id):
     listing = HouseListing.objects.get(id=id)
-    form = HouseListingForm(instance=listing,request=request)
-    if request.method == 'POST' and 'delete' in request.POST:
-        form.delete()
+    # form = HouseListingForm(instance=listing,request=request)
+    # if request.method == 'POST' and 'delete' in request.POST:'
+    if request.method == 'POST':
+        listing.delete()
         return redirect('listhouse')
     return render(request, 'core/delete.html')
 

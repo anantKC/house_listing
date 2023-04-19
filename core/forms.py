@@ -26,19 +26,16 @@ class HouseListingForm(ModelForm):
     def save(self, commit=True):
         # return HouseListing.objects.create(user=self.request.user,**self.cleaned_data)
         instance = super().save(commit=False)
-        if not instance.id:
-            instance.user = self.request.user
-        elif instance.user != self.request.user:
-            raise PermissionDenied("You do not have right to update this form")
+        instance.user = self.request.user
         if commit:
             instance.save()
         return instance
     
-    def delete(self):
-        instance = self.instance
-        if instance.user != self.request.user:
-            raise PermissionDenied("You do not have right to delete this form")
-        instance.delete()
+    # def delete(self):
+    #     instance = self.instance
+    #     if instance.user != self.request.user:
+    #         raise PermissionDenied("You do not have right to delete this form")
+    #     instance.delete()
 
     
     
