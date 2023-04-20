@@ -1,7 +1,9 @@
 from django.forms import ModelForm
 from django import forms
 from .models import HouseListing
-from django.core.exceptions import PermissionDenied
+# from django.core.exceptions import PermissionDenied
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserChangeForm
 
 class HouseListingForm(ModelForm):
     
@@ -37,6 +39,9 @@ class HouseListingForm(ModelForm):
     #         raise PermissionDenied("You do not have right to delete this form")
     #     instance.delete()
 
-    
-    
+
+class UpdateUser(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ('username','first_name','last_name')
         

@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import HouseListing
-from .forms import HouseListingForm
+from .forms import HouseListingForm,UpdateUser
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def list_house(request):
@@ -37,8 +38,7 @@ def update_list_house(request, id):
             form.save()
             return redirect('listhouse')
             
-    context = {'form': form,
-               'listing':listing}
+    context = {'form': form}
     return render(request, 'core/update_house_list.html', context)
 
 
@@ -61,3 +61,18 @@ def sign_up(request):
         form = UserCreationForm()
     context = {'form': form}
     return render(request, 'core/sign_up.html',context)
+
+@login_required
+def update_profile(request):
+    if request.method == 'POST':
+        form = UpdateUser(request.POST,instance = request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('listhouse')
+    else:
+        form = UpdateUser(instance = request.user)
+    context = {
+        'form':form
+    }
+    return render(request,'core/update_profile.html',context)
+
