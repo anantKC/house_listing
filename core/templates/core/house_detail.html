@@ -1,0 +1,12 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+{% if request.user.is_authenticated %}
+    {% if house in user_wishlist %}
+        <a href="{% url 'remove_from_wishlist' house.id %}">Remove from Wishlist</a>
+    {% else %}
+        <a href="{% url 'add_to_wishlist' house.id %}">Add to Wishlist</a>
+    {% endif %}
+{% endif %}
+
+{% endblock content %}

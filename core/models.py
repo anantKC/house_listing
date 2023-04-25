@@ -12,3 +12,13 @@ class HouseListing(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+
+class WishList(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    houses = models.ManyToManyField(HouseListing)
+
+    def __str__(self):
+        return self.user.username
+
+    

@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import HouseListing
+from .models import HouseListing,WishList
 # Register your models here.
 
-class HouseListingAdmin(admin.ModelAdmin):
-    list_display = ('area_in_sqm','price')
+# class HouseListingAdmin(admin.ModelAdmin):
+#     list_display = ('area_in_sqm','price')
 
-admin.site.register(HouseListing,HouseListingAdmin)
+admin.site.register(HouseListing)
+admin.site.register(WishList)

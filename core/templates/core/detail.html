@@ -1,14 +1,12 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-            {% comment %} <img src="{{ house_list.image.url }}" alt="{{ list.area}}" />
-            <p>{{ house_list.location }}</p>
-            <p>{{ house_list.area_in_sqm }}</p>
-            <p>{{ house_list.price }}</p> {% endcomment %}
-            {% comment %} <a href="{% url 'updatelisthouse' house_list.id %}" type="button">Update</a> {% endcomment %}
-            {% comment %} <a href="{% url 'deletelisthouse' house_list.id %}">Delete</a> {% endcomment %}
             <div class="max-w-sm rounded overflow-hidden shadow-lg m-1">
                <img class="w-full" src="{{house_list.image.url}}" alt=""></a>
+      
+               <p class="text-gray-700 text-base">
+                Seller : {{ house_list.user}}
+              </p>
             
       <p class="text-gray-700 text-base">
         Location : {{ house_list.location}}
@@ -22,13 +20,17 @@
     </div>
     {% if user.is_authenticated %}
     {% if house_list.user == user %}
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-1">
+            <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
                 <a href="{% url 'updatelisthouse' house_list.id %}">Update</a>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full m-1">
+            <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
                 <a href="{% url 'deletelisthouse' house_list.id %}">Delete</a>
+    {% else %}
+      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
+        <a href="{% url 'updatelisthouse' house_list.id %}">Buy</a>
+      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+      <a href="{% url 'add_to_wishlist' house_list.id %}">Add to WishList</a> 
     {% endif %}
     {% endif %}
 </button>
-
 
 {% endblock content %}

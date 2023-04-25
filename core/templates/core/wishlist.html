@@ -1,0 +1,33 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+
+    {% if houses %}
+    <div class="grid grid-cols-4 gap-2">
+        {% for house in houses %}
+        <div class="max-w-sm rounded overflow-hidden shadow-lg m-2 p-1 bg-white ">
+               <a> <img class="w-full" src="{{house.image.url}}" alt=""></a>
+            <p class="text-gray-700 text-base">
+              Seller : {{ house.user}} </p>
+      <p class="text-gray-700 text-base">
+        Location : {{ house.location}}
+      </p>
+      <p class="text-gray-700 text-base">
+        Area : {{ house.area_in_sqm }}
+      </p>
+       <p class="text-gray-700 text-base">
+        Price : {{ house.price }}
+      </p>
+      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+        <a href="{% url 'remove_from_wishlist' house.id %}">Remove from Wishlist</a>
+    </button>
+    </div>
+        {% endfor %}
+    </div>
+        <ul>
+        
+        </ul>
+    {% else %}
+        <p>Your wishlist is empty.</p>
+    {% endif %}
+{% endblock %}
