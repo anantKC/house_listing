@@ -9,6 +9,9 @@ class HouseListing(models.Model):
     area_in_sqm = models.FloatField()
     price  = models.IntegerField()
 
+    @staticmethod
+    def search_by_location(location):
+        return HouseListing.objects.filter(location__contains=location)
 
     def __str__(self):
         return self.user.username

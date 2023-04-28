@@ -11,4 +11,5 @@ urlpatterns = [
     path('wishlist/', UserWishlist.as_view(), name='wishlist'),
     path('add-to-wishlist/<int:house_id>/', AddToWishlist.as_view(), name='add_to_wishlist'),
     path('remove-from-wishlist/<int:house_id>/', RemoveFromWishlist.as_view(), name='remove_from_wishlist'),
+    path('search/',SearchHouseListingView.as_view(),name="search"),
 ]

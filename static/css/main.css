@@ -4,5 +4,19 @@ body{
     font-family: 'Manrope', sans-serif;
 
 }
+#searchBar {
+    display: flex;
+    align-items: center;
+  }
+  
+  #searchBar input[type="text"] {
+    flex-grow: 1;
+    width: 100%;
+  }
+  
+  #searchBar button[type="submit"] {
+    flex-shrink: 0;
+    margin-left: 1rem;
+  }
 
 

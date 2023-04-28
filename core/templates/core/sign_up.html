@@ -1,9 +1,65 @@
-{% extends 'core/base.html' %}
+{% extends 'core/base.html' %} {% block content %}
+<div class="bg-white py-32 px-10 min-h-screen">
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <!-- {{ form.as_p}}
+        <input type="submit" value="Save" /> -->
+    <div>
+      <label>Username</label>
+      <input
+        type="text"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="username"
+      />
+    </div>
+    <div>
+      <label>Firstname</label>
+      <input
+        type="text"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="first_name"
+      />
+    </div>
+    <div>
+      <label>Lastname</label>
+      <input
+        type="text"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="last_name"
+      />
+    </div>
+    <div>
+      <label>Email</label>
+      <input
+        type="email"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="email"
+      />
+    </div>
+    <div>
+      <label>Password</label>
 
-{% block content %}
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form.as_p}}
-        <input type="submit" value="Save" />
-    </form>
+      <input
+        type="password"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="password1"
+      />
+    </div>
+    <div>
+      <label>Confirm Password</label>
+
+      <input
+        type="password"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="password2"
+      />
+    </div>
+    <button
+      type="submit"
+      class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold"
+    >
+      Register
+    </button>
+  </form>
+</div>
 {% endblock content %}

@@ -1,44 +1,51 @@
-{% extends 'core/base.html' %}
-
-{% block content %}
-    <div class="bg-green-200 py-32 px-10 min-h-screen ">
-    {% comment %} <form method="post" action="" enctype= "multipart/form-data">
-        {% csrf_token %}
-    <div class="p-16 focus:outline-none focus:shadow-outline border border-gray-500 rounded-md py-2 px-2 block appearance-none leading-normal p-1 m-1"> 
-        {{form.as_p}}
+{% extends 'core/base.html' %} {% block content %}
+<div class="bg-white py-32 px-10 min-h-screen">
+  
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+      <label for="{{ form.image.id_for_label }}">Image:</label>
+      {{ form.image }}
     </div>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full" type="submit">Save</button> </form> {% endcomment %}
-        <form method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-
-  <div>
-    <label for="{{ form.image.id_for_label }}" >Image:</label>
-    {{ form.image }}
-  </div>
-  <div>
-    <label for="{{ form.location.id_for_label }}">Location:</label>
-    {{ form.location }}
-  </div>
-  <div>
-    <label for="{{ form.area_in_sqm.id_for_label }}">Area (in sqm):</label>
-    
-    {{ form.area_in_sqm }}
-  </div>
-  <div>
-    <label for="{{ form.price.id_for_label }}">Price:</label>
-    {{ form.price }}
-  </div>
-  <button type="submit">Submit</button>
-</form>
-{% if form.errors %}
-    <div class="alert alert-danger">
-      <ul>
-        {% for field, errors in form.errors.items %}
-          {% for error in errors %}
-            <li>{{ error }}</li>
-          {% endfor %}
-        {% endfor %}
-      </ul>
+    <div>
+      <label for="{{ form.location.id_for_label }}">Location:</label>
+      <input
+        type="text"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="location"
+      />
     </div>
-  {% endif %}
-{% endblock content %}
+    <div>
+      <label for="{{ form.area_in_sqm.id_for_label }}">Area (in sqm):</label>
+
+      <input
+        type="number"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="area_in_sqm"
+      />
+    </div>
+    <div>
+      <label for="{{ form.price.id_for_label }}">Price:</label>
+      <input
+        type="number"
+        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+        name="price"
+      />
+    </div>
+    <button
+      type="submit"
+      class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold"
+    >
+      Submit
+    </button>
+  </form>
+  {% if form.errors %}
+  <div class="alert alert-danger">
+    <ul>
+      {% for field, errors in form.errors.items %} {% for error in errors %}
+      <li>{{ error }}</li>
+      {% endfor %} {% endfor %}
+    </ul>
+  </div>
+  {% endif %} {% endblock content %}
+</div>

@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from core.models import HouseListing,WishList
-from core.forms import HouseListingForm,UpdateUser
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
+from django.contrib.auth.views import LoginView
+
+from core.models import HouseListing,WishList
+from core.forms import HouseListingForm,UpdateUser
+
 # Create your views here.
 
 class ListHouseView(View):
@@ -61,7 +63,7 @@ class DeleteListHouseView(View):
         listing = get_object_or_404(HouseListing, id=id)
         listing.delete()
         return redirect('listhouse')
-
+    
 class SignUpView(View):
     def get(self,request):
         form = UserCreationForm()
@@ -72,8 +74,10 @@ class SignUpView(View):
         if form.is_valid():
             form.save()
             return redirect('login')
-        context = {'form': form}
-        return render(request,'core/sign_up.html')
+        else:
+            print(form.errors)
+            context = {'form': form}
+            return render(request, 'core/sign_up.html', context)      
 
 class UpdateProfileView(LoginRequiredMixin,View):
     def get(self,request):
@@ -108,5 +112,14 @@ class RemoveFromWishlist(LoginRequiredMixin,View):
         wishlist = WishList.objects.get(user=request.user)
         wishlist.houses.remove(house)
         return redirect('wishlist')
+    
+class SearchHouseListingView(LoginRequiredMixin,View):
+    def get(self,request):
+        location = request.GET.get('location')
+        listings = HouseListing.search_by_location(location)
+        context = {
+            'listings':listings
+        }
+        return render(request,'core/search_result.html',context)
 
 

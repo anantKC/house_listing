@@ -1,0 +1,31 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+<h1 class="text-lg mb-10">Search Results</h1>
+{% if listings %}
+  <ul class="grid grid-cols-4 gap-2">
+    {% for listing in listings %}
+    
+    <div class="max-w-sm rounded overflow-hidden shadow-lg m-1">
+        <img class="w-full" src="{{listing.image.url}}" alt=""></a>
+
+        <p class="text-gray-700 text-base">
+         Seller : {{ listing.user}}
+       </p>
+     
+<p class="text-gray-700 text-base">
+ Location : {{ listing.location}}
+</p>
+<p class="text-gray-700 text-base">
+ Area : {{ listing.area_in_sqm }}
+</p>
+<p class="text-gray-700 text-base">
+ Price : {{ listing.price }}
+</p>
+</div>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>No results found for "{{ request.GET.location }}"</p>
+{% endif %}
+{% endblock %}

@@ -1,26 +1,30 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
+<div class="bg-white py-32 px-10 min-h-screen">
     <form method="post" action"" enctype= "multipart/form-data">
         {% csrf_token %}
         <div>
-            <label for="{{ form.image.id_for_label }}" >Image:</label>
-            {{ form.image }}
-          </div>
-          <div>
-            <label for="{{ form.location.id_for_label }}">Location:</label>
-            {{ form.location }}
-          </div>
-          <div>
-            <label for="{{ form.area_in_sqm.id_for_label }}">Area (in sqm):</label>
-            {{ form.area_in_sqm }}
-          </div>
-          <div>
-            <label for="{{ form.price.id_for_label }}">Price:</label>
-            {{ form.price }}
-          </div>
-        <input type="submit" value="Save" />
-        <a href="{% url 'detail' listing.id %}" type="button">Cancel</a>
+          <label for="{{ form.image.id_for_label }}">Image:</label>
+          {{ form.image }}
+        </div>
+        <div>
+          <label for="{{ form.location.id_for_label }}">Location:</label>
+          <input type="text" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3" name="location" value="{{form.instance.location}}" />
+        </div>
+        <div>
+          <label for="{{ form.area_in_sqm.id_for_label }}">Area (in sqm):</label>
+          
+          <input type="number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3" name="area_in_sqm" value="{{form.instance.area_in_sqm}}" />
+        </div>
+        <div>
+          <label for="{{ form.price.id_for_label }}">Price:</label>
+          <input type="number" class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3" name="price" value="{{form.instance.price}}">
+        </div>
+        <button type="submit" class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">Save</button>
+        <a href="{% url 'detail' listing.id %}" type="button" class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">Cancel</a>
+
+      </form>
     </form>
     {% if form.errors %}
     <div class="alert alert-danger">
@@ -32,5 +36,7 @@
         {% endfor %}
       </ul>
     </div>
+  
   {% endif %}
+</div>
 {% endblock content %}
