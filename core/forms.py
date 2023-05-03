@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 from django import forms
 from .models import HouseListing
-# from django.core.exceptions import PermissionDenied
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserChangeForm
+from django.contrib.auth.forms import UserChangeForm,UserCreationForm
+
+from user.models import CustomUser
 
 class HouseListingForm(ModelForm):
     
@@ -42,6 +42,23 @@ class HouseListingForm(ModelForm):
 
 class UpdateUser(UserChangeForm):
     class Meta:
-        model = User
-        fields = ('username','first_name','last_name')
+        model = CustomUser
+        fields = ('email','password',)
+
+class SignUpForm(UserCreationForm):
+    email = forms.EmailField(required=True)
+
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = ('name','email', 'password1','password2',)
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if CustomUser.objects.filter(email=email).exists():
+            raise forms.ValidationError('A user with that email address already exists.')
+        return email
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(label="Email")
+    password = forms.CharField(label="Password", widget=forms.PasswordInput)
         

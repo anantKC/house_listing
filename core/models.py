@@ -1,9 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+from user.models import CustomUser
 # Create your models here.
 
 class HouseListing(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     image = models.ImageField(upload_to='house_images')
     location = models.CharField(max_length=50)
     area_in_sqm = models.FloatField()
@@ -18,7 +18,7 @@ class HouseListing(models.Model):
     
 
 class WishList(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     houses = models.ManyToManyField(HouseListing)
 
     def __str__(self):

@@ -1,31 +1,15 @@
 {% extends 'core/base.html' %} {% block content %}
 <div class="bg-white py-32 px-10 min-h-screen">
-  <form method="post" action="{% url 'login' %}">
+  <form method="post">
     {% csrf_token %}
     <!-- {{ form.as_p}}
         <input type="submit" value="Save" /> -->
     <div>
-      <label>Username</label>
+      <label>Name</label>
       <input
         type="text"
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
-        name="username"
-      />
-    </div>
-    <div>
-      <label>Firstname</label>
-      <input
-        type="text"
-        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
-        name="first_name"
-      />
-    </div>
-    <div>
-      <label>Lastname</label>
-      <input
-        type="text"
-        class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
-        name="last_name"
+        name="name"
       />
     </div>
     <div>
@@ -38,7 +22,6 @@
     </div>
     <div>
       <label>Password</label>
-
       <input
         type="password"
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
@@ -47,13 +30,13 @@
     </div>
     <div>
       <label>Confirm Password</label>
-
       <input
         type="password"
         class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
         name="password2"
       />
     </div>
+
     <button
       type="submit"
       class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold"

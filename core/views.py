@@ -2,10 +2,14 @@ from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import View
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login,logout
+from django.views.generic import RedirectView
+from django.views.generic.edit import FormView
+from django.urls import reverse_lazy
 
 from core.models import HouseListing,WishList
-from core.forms import HouseListingForm,UpdateUser
+from core.forms import HouseListingForm,UpdateUser,LoginForm,SignUpForm
 
 # Create your views here.
 
@@ -64,20 +68,21 @@ class DeleteListHouseView(View):
         listing.delete()
         return redirect('listhouse')
     
-class SignUpView(View):
-    def get(self,request):
-        form = UserCreationForm()
-        context = {'form':form}
-        return render(request,'core/sign_up.html',context)
-    def post(self,request):
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('login')
-        else:
-            print(form.errors)
-            context = {'form': form}
-            return render(request, 'core/sign_up.html', context)      
+class SignupView(FormView):
+    form_class = SignUpForm
+    template_name = 'core/sign_up.html'
+    success_url = reverse_lazy('login')
+    
+
+    def form_valid(self, form):
+        print("form saved")
+        user = form.save(commit=False)
+        user.email = form.cleaned_data.get('email')
+        print("user", user)
+        user.save()
+        return super().form_valid(form)
+
+    
 
 class UpdateProfileView(LoginRequiredMixin,View):
     def get(self,request):
@@ -122,4 +127,27 @@ class SearchHouseListingView(LoginRequiredMixin,View):
         }
         return render(request,'core/search_result.html',context)
 
+
+class LoginView(FormView):
+    template_name ='registration/login.html'
+    form_class = LoginForm
+    success_url = reverse_lazy('listhouse')
+
+    def form_valid(self, form):
+        email = form.cleaned_data.get('email')
+        password = form.cleaned_data.get('password')
+        user = authenticate(username=email, password=password)
+        if user:
+            login(self.request, user)
+            return super().form_valid(form)
+        else:
+            form.add_error(None, 'Invalid email or password')
+            return self.form_invalid(form)
+
+class LogoutView(RedirectView):
+    url = reverse_lazy('listhouse')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return super().get(request, *args, **kwargs)
 

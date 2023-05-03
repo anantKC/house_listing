@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
+    'user'
 ]
 
 MIDDLEWARE = [
@@ -90,6 +91,7 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
+AUTH_USER_MODEL = 'user.CustomUser'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -131,10 +133,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
-AUTHENTICATION_BACKENDS = [
-    'core.backends.EmailBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
