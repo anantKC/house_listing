@@ -1,9 +1,27 @@
 {% extends 'core/base.html' %}
 
 {% block content %}
-    <form method="post" action="">
-        {% csrf_token %}
-        {{ form.as_p}}
-        <input type="submit" value="Save" />
+<div class="bg-white py-32 px-10 min-h-screen">
+    <form method="post">
+      {% csrf_token %}
+      <!-- {{ form.as_p}}
+          <input type="submit" value="Save" /> -->
+      <div>
+        <label>Email</label>
+        <input
+          type="text"
+          class="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red-800 rounded py-3 px-4 mb-3"
+          name="email"
+          value="{{form.instance.email}}"
+        />
+      </div>
+      
+      <button
+        type="submit"
+        class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold"
+      >
+        Update
+      </button>
     </form>
+  </div>
 {% endblock content %}

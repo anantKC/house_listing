@@ -43,7 +43,7 @@ class HouseListingForm(ModelForm):
 class UpdateUser(UserChangeForm):
     class Meta:
         model = CustomUser
-        fields = ('email','password',)
+        fields = ('email',)
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
