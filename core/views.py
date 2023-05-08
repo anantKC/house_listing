@@ -1,17 +1,14 @@
 from django.shortcuts import render, redirect,get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views import View
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login,logout
+from django.views import View
 from django.views.generic import RedirectView
-from django.views.generic.edit import FormView
-from django.urls import reverse_lazy
+from django.views.generic.edit import FormView, CreateView
+from django.urls import reverse_lazy, reverse
 
-from core.models import HouseListing,WishList
-from core.forms import HouseListingForm,UpdateUser,LoginForm,SignUpForm
+from core.models import HouseListing, WishList, Comment
+from core.forms import HouseListingForm, UpdateUser, LoginForm, SignUpForm
 
-# Create your views here.
 
 class ListHouseView(View):
     def get(self, request):
@@ -22,8 +19,10 @@ class ListHouseView(View):
 class DetailHouseView(View):
     def get(self, request, id):
         house_list = get_object_or_404(HouseListing, id=id)
-        context = {'house_list': house_list}
+        comments = Comment.objects.filter(house_listing=id)
+        context = {'house_list': house_list,'comments':comments}
         return render(request, 'core/detail.html', context)
+
 
 class CreateListHouseView(View):
     def get(self, request):
@@ -67,24 +66,23 @@ class DeleteListHouseView(View):
         listing = get_object_or_404(HouseListing, id=id)
         listing.delete()
         return redirect('listhouse')
-    
+
+
 class SignupView(FormView):
     form_class = SignUpForm
     template_name = 'core/sign_up.html'
     success_url = reverse_lazy('login')
     
-
     def form_valid(self, form):
-        print("form saved")
         user = form.save(commit=False)
         user.email = form.cleaned_data.get('email')
         print("user", user)
         user.save()
         return super().form_valid(form)
 
-    
 
 class UpdateProfileView(LoginRequiredMixin,View):
+
     def get(self,request):
         form = UpdateUser(instance = request.user)
         context = {'form': form}
@@ -94,8 +92,10 @@ class UpdateProfileView(LoginRequiredMixin,View):
         if form.is_valid():
             form.save()
             return redirect('listhouse')
+        
 
 class UserWishlist(LoginRequiredMixin,View):
+
     def get(self,request):
         wishlist, created = WishList.objects.get_or_create(user=request.user)
         houses = wishlist.houses.all()
@@ -103,22 +103,28 @@ class UserWishlist(LoginRequiredMixin,View):
             'houses':houses
         }
         return render(request,'core/wishlist.html',context)
+    
 
 class AddToWishlist(LoginRequiredMixin,View):
+
     def get(self,request,house_id):
         house = HouseListing.objects.get(id=house_id)
         wishlist, created = WishList.objects.get_or_create(user=request.user)
         wishlist.houses.add(house)
         return redirect('wishlist')
+    
 
 class RemoveFromWishlist(LoginRequiredMixin,View):
+
     def get(self,request,house_id):
         house = HouseListing.objects.get(id=house_id)
         wishlist = WishList.objects.get(user=request.user)
         wishlist.houses.remove(house)
         return redirect('wishlist')
     
-class SearchHouseListingView(LoginRequiredMixin,View):
+    
+class SearchHouseListingView(LoginRequiredMixin, View):
+    
     def get(self,request):
         location = request.GET.get('location')
         listings = HouseListing.search_by_location(location)
@@ -143,6 +149,7 @@ class LoginView(FormView):
         else:
             form.add_error(None, 'Invalid email or password')
             return self.form_invalid(form)
+        
 
 class LogoutView(RedirectView):
     url = reverse_lazy('listhouse')
@@ -150,4 +157,18 @@ class LogoutView(RedirectView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return super().get(request, *args, **kwargs)
+
+
+class CreateComment(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['body']
+    template_name = 'core/create_comment.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.instance.house_listing = HouseListing.objects.get(id=self.kwargs['id'])
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('detail', kwargs={'id': self.kwargs['id']})
 

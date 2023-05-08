@@ -22,15 +22,32 @@
     {% if house_list.user == user %}
             <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
                 <a href="{% url 'updatelisthouse' house_list.id %}">Update</a>
-            <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+            <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
                 <a href="{% url 'deletelisthouse' house_list.id %}">Delete</a>
+                <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+            <a href="{% url 'createcomment' house_list.id %}">Comment</a></button>
     {% else %}
       <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
         <a href="{% url 'updatelisthouse' house_list.id %}">Buy</a>
-      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
-      <a href="{% url 'add_to_wishlist' house_list.id %}">Add to WishList</a> 
+      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
+      <a href="{% url 'add_to_wishlist' house_list.id %}">Add to WishList</a>
+          <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+      <a href="{% url 'createcomment' house_list.id %}">Comment</a></button>
     {% endif %}
+    <h1>Comments</h1>
+    {% if comments %}
+    {% for comment in comments %}
+              <div> Created {{ comment.pub_date }} by
+                    <a href="#">{{ comment.user.email }}</a>
+                </div>
+
+                <!-- Comment body -->
+                <h3> {{ comment.body }}</h3>
+              {% endfor %}
+          {% else %}
+            <h2>There are no comments</h2>
+          {% endif %}
     {% endif %}
-</button>
+
 
 {% endblock content %}

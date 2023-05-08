@@ -1,15 +1,17 @@
 from django.forms import ModelForm
 from django import forms
-from .models import HouseListing
-from django.contrib.auth.forms import UserChangeForm,UserCreationForm
+
+from core.models import HouseListing
+from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 
 from user.models import CustomUser
 
+
 class HouseListingForm(ModelForm):
-    
+
     class Meta:
         model = HouseListing
-        fields = ['image','location','area_in_sqm','price']
+        fields = ['image', 'location', 'area_in_sqm', 'price']
 
     def clean(self):
         cleaned_data = super().clean()
@@ -45,10 +47,11 @@ class UpdateUser(UserChangeForm):
         model = CustomUser
         fields = ('email',)
 
+
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(required=True)
 
-    class Meta(UserCreationForm.Meta):
+    class Meta:
         model = CustomUser
         fields = ('name','email', 'password1','password2',)
 
@@ -58,7 +61,7 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError('A user with that email address already exists.')
         return email
 
+
 class LoginForm(forms.Form):
     email = forms.EmailField(label="Email")
     password = forms.CharField(label="Password", widget=forms.PasswordInput)
-        

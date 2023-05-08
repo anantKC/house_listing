@@ -1,13 +1,13 @@
 from django.db import models
 from user.models import CustomUser
-# Create your models here.
+
 
 class HouseListing(models.Model):
-    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='house_images')
     location = models.CharField(max_length=50)
     area_in_sqm = models.FloatField()
-    price  = models.IntegerField()
+    price = models.IntegerField()
 
     @staticmethod
     def search_by_location(location):
@@ -23,5 +23,12 @@ class WishList(models.Model):
 
     def __str__(self):
         return self.user.username
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    house_listing = models.ForeignKey(HouseListing,on_delete=models.CASCADE)
+    body = models.TextField()
+    pub_date = models.DateTimeField('date_published',auto_now_add=True)
 
     
