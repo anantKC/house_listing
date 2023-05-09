@@ -28,9 +28,8 @@
 
         {% else %}
         {% if user.is_staff %}
-        <a href="{% url 'createlisthouse' %}" class="mt-3 md:mx-3">Users</a>
-        <a href="{% url 'updateprofile' %}" class="mt-3 md:mx-3">Houses</a>
-        <a href="{% url 'wishlist' %}" class="mt-3 md:mx-3">WishLists</a>
+        <a href="{% url 'userlist' %}" class="mt-3 md:mx-3">Users</a>
+        <a href="{% url 'adminhouselist' %}" class="mt-3 md:mx-3">Houses</a>
         <a href="{% url 'logout' %}" class="mt-3 md:mx-3">Logout</a>
 
         {% else %}
@@ -50,6 +49,9 @@
         
         {% block content %}
         {% endblock content %}
+        {% else %}
+        {% block admin %}
+        {% endblock %}
         {% endif %}
       </div>
       

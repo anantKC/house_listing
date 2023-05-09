@@ -16,6 +16,10 @@ urlpatterns = [
     path('add-to-wishlist/<int:house_id>/', AddToWishlist.as_view(), name='add_to_wishlist'),
     path('remove-from-wishlist/<int:house_id>/', RemoveFromWishlist.as_view(), name='remove_from_wishlist'),
     path('search/',SearchHouseListingView.as_view(),name="search"),
-    path('detail/<str:id>/comment/',CreateComment.as_view(), name='createcomment')
+    path('detail/<str:id>/comment/',CreateComment.as_view(), name='createcomment'),
+    path('users/',UserListView.as_view(),name='userlist'),
+    path('deleteuser/<str:pk>/',UserDeleteView.as_view(),name='deleteuser'),
+    path('adminhouselist/',AdminHouseListView.as_view(),name='adminhouselist'),
+    path('deleteadminhouselist/<str:pk>/',AdminHouseDeleteView.as_view(),name='admindeletehouse'),
 
 ]
