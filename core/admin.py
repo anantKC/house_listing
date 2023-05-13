@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import HouseListing,WishList
+from .models import HouseListing,WishList,Comment
 # Register your models here.
 
 # class HouseListingAdmin(admin.ModelAdmin):
@@ -7,3 +7,4 @@ from .models import HouseListing,WishList
 
 admin.site.register(HouseListing)
 admin.site.register(WishList)
+admin.site.register(Comment)

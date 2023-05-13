@@ -101,7 +101,7 @@ class UpdateProfileView(LoginRequiredMixin, View):
             return redirect('listhouse')
 
 
-class UserWishlist(LoginRequiredMixin, View):
+class UserWishlist(View):
 
     def get(self, request):
         wishlist, created = WishList.objects.get_or_create(user=request.user)
@@ -112,7 +112,7 @@ class UserWishlist(LoginRequiredMixin, View):
         return render(request, 'core/wishlist.html', context)
 
 
-class AddToWishlist(LoginRequiredMixin, View):
+class AddToWishlist(View):
 
     def get(self, request, house_id):
         house = HouseListing.objects.get(id=house_id)
@@ -121,7 +121,7 @@ class AddToWishlist(LoginRequiredMixin, View):
         return redirect('wishlist')
 
 
-class RemoveFromWishlist(LoginRequiredMixin, View):
+class RemoveFromWishlist(View):
 
     def get(self, request, house_id):
         house = HouseListing.objects.get(id=house_id)
@@ -166,7 +166,7 @@ class LogoutView(RedirectView):
         return super().get(request, *args, **kwargs)
 
 
-class CreateComment(LoginRequiredMixin, CreateView):
+class CreateComment(CreateView):
     model = Comment
     fields = ['body']
     template_name = 'core/create_comment.html'
@@ -182,20 +182,24 @@ class CreateComment(LoginRequiredMixin, CreateView):
 
 # Admin Panel
 
+
 class UserListView(ListView):
     model = CustomUser
     template_name = 'core/admin/userlist.html'
     context_object_name = 'userlist'
+
 
 class UserDeleteView(DeleteView):
     model = CustomUser
     template_name = 'core/admin/deleteuser.html'
     success_url = reverse_lazy('userlist')
 
+
 class AdminHouseListView(ListView):
     model = HouseListing
     template_name = 'core/admin/houselist.html'
     context_object_name = 'adminhouselist'
+
 
 class AdminHouseDeleteView(DeleteView):
     model = HouseListing

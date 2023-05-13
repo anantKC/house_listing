@@ -31,8 +31,8 @@
         <a href="{% url 'updatelisthouse' house_list.id %}">Buy</a>
       <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
       <a href="{% url 'add_to_wishlist' house_list.id %}">Add to WishList</a>
-          <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
-      <a href="{% url 'createcomment' house_list.id %}">Comment</a></button>
+          <button onclick="loadComment()" class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
+      Comment</button>
     {% endif %}
     <h1>Comments</h1>
     {% if comments %}
@@ -42,12 +42,49 @@
                 </div>
 
                 <!-- Comment body -->
-                <h3> {{ comment.body }}</h3>
+                <h3 id="commentbody"> {{ comment.body }}</h3>
               {% endfor %}
           {% else %}
             <h2>There are no comments</h2>
           {% endif %}
     {% endif %}
+    <script> 
+      const url = "{% url 'createcomment' house_list.id %}";
+      function showToast(message) {
+        const toast = document.createElement("div");
+        toast.classList.add("toast");
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => {
+          document.body.removeChild(toast);
+        }, 3000);
+         toast.classList.add("show");
+}
+
+      function loadComment() {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+        if (this.readyState === 4 && this.status === 200) {
+          document.getElementById("commentbody").innerHTML = this.responseText;
+        }
+      };
+    xhr.open("GET", url);
+    xhr.send();
+  }
+  function submitComment() {
+        const formData = new FormData(document.getElementById("commentForm"));
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Handle success response
+                showToast("Comment Created Successfully");
+                loadComment();
+            }
+        };
+        xhr.open("POST", url);
+        xhr.send(formData);
+    }
+    </script>
 
 
 {% endblock content %}

@@ -14,7 +14,7 @@ class HouseListing(models.Model):
         return HouseListing.objects.filter(location__contains=location)
 
     def __str__(self):
-        return self.user.username
+        return self.user.email
     
 
 class WishList(models.Model):
@@ -22,7 +22,7 @@ class WishList(models.Model):
     houses = models.ManyToManyField(HouseListing)
 
     def __str__(self):
-        return self.user.username
+        return self.houses
 
 
 class Comment(models.Model):
@@ -30,5 +30,8 @@ class Comment(models.Model):
     house_listing = models.ForeignKey(HouseListing,on_delete=models.CASCADE)
     body = models.TextField()
     pub_date = models.DateTimeField('date_published',auto_now_add=True)
+    
+    def __str__(self):
+        return self.body
 
     
