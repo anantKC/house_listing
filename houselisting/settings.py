@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'user'
+    'user',
+    'payments'
 ]
 
 MIDDLEWARE = [
@@ -139,4 +140,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#Stripe Settings
 
+STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
+STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY')
