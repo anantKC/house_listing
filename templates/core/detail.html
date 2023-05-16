@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% block script %} <script src="https://js.stripe.com/v3/"></script> {% endblock script%} 
+
 {% block content %}
             <div class="max-w-sm rounded overflow-hidden shadow-lg m-1">
                <img class="w-full" src="{{house_list.image.url}}" alt=""></a>
@@ -27,8 +29,13 @@
                 <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">
             <a href="{% url 'createcomment' house_list.id %}">Comment</a></button>
     {% else %}
-      <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
-        <a href="{% url 'updatelisthouse' house_list.id %}">Buy</a>
+      <form
+          action="{% url 'payments:create-checkout-session' house_list.id %}"
+          method="POST"
+        >
+          {% csrf_token %}
+          <button type="submit" class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">Buy</button>
+        </form>
       <button class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold m-1.5">
       <a href="{% url 'add_to_wishlist' house_list.id %}">Add to WishList</a>
           <button onclick="loadComment()" class="border border-teal-800 hover:border-teal-600 rounded py-3 px-8 text-teal-800 hover:text-teal-600 transition duration-500 font-bold">

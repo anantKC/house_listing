@@ -11,7 +11,7 @@ class HouseListing(models.Model):
 
     @staticmethod
     def search_by_location(location):
-        return HouseListing.objects.filter(location__contains=location)
+        return HouseListing.objects.filter(location__icontains=location)
 
     def __str__(self):
         return self.user.email
